@@ -14,13 +14,13 @@ A powerful autonomous AI agent that runs in the terminal / Termux on Android. Gi
 ## Quick Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/termux-agent/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/qwen-bit/termux-agent/main/install.sh | bash
 ```
 
 ## Manual Setup
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USER/termux-agent
+git clone https://github.com/qwen-bit/termux-agent
 cd termux-agent
 pip install -r requirements.txt
 cp .env.example .env

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # TermuxAgent — one-liner installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_GITHUB_USER/termux-agent/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/qwen-bit/termux-agent/main/install.sh | bash
 
 set -e
 
-REPO="https://github.com/YOUR_GITHUB_USER/termux-agent"
+REPO="https://github.com/qwen-bit/termux-agent"
 INSTALL_DIR="$HOME/termux-agent"
 
 echo ""
