@@ -9,8 +9,8 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 
 class Config:
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
-    OPENAI_BASE_URL: str = os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1")
-    MODEL: str = os.getenv("MODEL", "gpt-4o")
+    OPENAI_BASE_URL: str = os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1")
+    MODEL: str = os.getenv("MODEL", "google/gemma-3-27b-it:free")
     MAX_STEPS: int = int(os.getenv("MAX_STEPS", "20"))
     MEMORY_ENABLED: bool = os.getenv("MEMORY_ENABLED", "true").lower() == "true"
     VERBOSE: bool = os.getenv("VERBOSE", "false").lower() == "true"
@@ -25,7 +25,11 @@ class Config:
     def validate(cls):
         if not cls.OPENAI_API_KEY:
             raise ValueError(
-                "OPENAI_API_KEY is not set. Copy .env.example to .env and add your key."
+                "OPENAI_API_KEY is not set.\n"
+                "  1. Get a FREE API key at https://openrouter.ai/keys\n"
+                "  2. Copy .env.example to .env\n"
+                "  3. Set OPENAI_API_KEY=your_key_here\n"
+                "  Free models included: google/gemma-3-27b-it:free, deepseek/deepseek-r1:free"
             )
 
 

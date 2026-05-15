@@ -1,5 +1,5 @@
 """Web skill — fetch URLs and search the web."""
-import json
+import re
 import urllib.parse
 import requests
 from skills.base import BaseSkill
@@ -73,22 +73,34 @@ class WebSkill(BaseSkill):
             return f"[ERROR] {e}"
 
     def _search(self, query: str, num_results: int = 5) -> str:
+        # Use ddgs library (DuckDuckGo, no API key required)
         try:
-            # Use DuckDuckGo instant answer API
+            from ddgs import DDGS
+            with DDGS() as ddgs:
+                hits = list(ddgs.text(query, max_results=num_results))
+            if hits:
+                lines = []
+                for i, h in enumerate(hits, 1):
+                    lines.append(f"{i}. {h.get('title', '')}\n   {h.get('body', '')[:200]}")
+                return "\n\n".join(lines)
+        except Exception:
+            pass
+
+        # Fallback: DuckDuckGo instant answer JSON API
+        try:
             q = urllib.parse.quote(query)
             url = f"https://api.duckduckgo.com/?q={q}&format=json&no_html=1&skip_disambig=1"
             resp = requests.get(url, timeout=10)
             data = resp.json()
-
             results = []
             if data.get("AbstractText"):
                 results.append(f"Summary: {data['AbstractText']}")
             for r in data.get("RelatedTopics", [])[:num_results]:
                 if isinstance(r, dict) and r.get("Text"):
                     results.append(f"- {r['Text']}")
+            if results:
+                return "\n".join(results)
+        except Exception:
+            pass
 
-            if not results:
-                return f"No results found for: {query}"
-            return "\n".join(results)
-        except Exception as e:
-            return f"[ERROR searching] {e}"
+        return f"No results found for: {query}"
